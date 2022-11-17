@@ -66,9 +66,9 @@ def _preprocess_data(data):
     feature_vector_df['month'] = feature_vector_df['time'].dt.month
     feature_vector_df['day'] = feature_vector_df['time'].dt.day
     feature_vector_df['hour'] = feature_vector_df['time'].dt.hour
-    for col in feature_vector_df.columns:
-        if True in list(feature_vector_df[col].isna()):
-            feature_vector_df = feature_vector_df.dropna(subset=[col])
+    #for col in feature_vector_df.columns:
+    #if True in list(feature_vector_df[col].isna()):
+    #feature_vector_df = feature_vector_df.dropna(subset=[col])
     feature_vector_df['Valencia_wind_deg'] = feature_vector_df['Valencia_wind_deg'].str[6:]
     feature_vector_df['Valencia_wind_deg'] = feature_vector_df['Valencia_wind_deg'].astype(int)
     feature_vector_df['Seville_pressure'] = feature_vector_df['Seville_pressure'].str[2:]

@@ -23,9 +23,6 @@ import pandas as pd
 import numpy as np
 import pickle
 import json
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error
 
 
 # Load data from file to send as an API POST request.
@@ -36,6 +33,7 @@ test = pd.read_csv('./data/df_test.csv')
 
 # Convert our DataFrame to a JSON string.
 # This step is necessary in order to transmit our data via HTTP/S
+#feature_vector_json = test.to_json(orient='columns')
 feature_vector_json = test.iloc[1].to_json()
 
 # Specify the URL at which the API will be hosted.
@@ -44,7 +42,7 @@ feature_vector_json = test.iloc[1].to_json()
 
 # url = 'http://{public-ip-address-of-remote-machine}:5000/api_v0.1'
 #url = 'http://127.0.0.1:5000/api_v0.1'
-url = 'http://54.195.161.25/api_v0.1'
+url = 'http://54.195.161.25:5000/api_v0.1'
 
 # Perform the POST request.
 print(f"Sending POST request to web server API at: {url}")
