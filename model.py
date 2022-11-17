@@ -26,6 +26,9 @@ import numpy as np
 import pandas as pd
 import pickle
 import json
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error
 
 def _preprocess_data(data):
     """Private helper function to preprocess data for model prediction.
@@ -42,7 +45,7 @@ def _preprocess_data(data):
     Returns
     -------
     Pandas DataFrame : <class 'pandas.core.frame.DataFrame'>
-        The preprocessed data, ready to be used our model for prediction.
+        The preprocessed data, ready to be used by our model for prediction.
     """
     # Convert the json string to a python dictionary object
     feature_vector_dict = json.loads(data)
@@ -58,12 +61,24 @@ def _preprocess_data(data):
     # ---------------------------------------------------------------
 
     # ----------- Replace this code with your own preprocessing steps --------
-    predict_vector = feature_vector_df[['Madrid_wind_speed','Bilbao_rain_1h','Valencia_wind_speed']]
+    df_train = feature_vector_df.copy()
+    df_train['time'] = pd.to_datetime(df_train['time'])
+    df_train['year'] = df_train['time'].dt.year
+    df_train['month'] = df_train['time'].dt.month
+    df_train['day'] = df_train['time'].dt.day
+    df_train['hour'] = df_train['time'].dt.hour
+    for col in df_train.columns:
+        if True in list(df_train[col].isna()):
+            df_train = df_train.dropna(subset=col)
+    df_train.Valencia_wind_deg = df_train.Valencia_wind_deg.str[6:]
+    df_train['Valencia_wind_deg'] = df_train['Valencia_wind_deg'].astype(int)
+    df_train['Seville_pressure'] = df_train['Seville_pressure'].str[2:]
+    df_train['Seville_pressure'] = df_train['Seville_pressure'].astype(int)
+    predict_vector = df_train.drop(['load_shortfall_3h','Unnamed: 0', 'time'], axis = 1)
     # ------------------------------------------------------------------------
-
     return predict_vector
 
-def load_model(path_to_model:str):
+def load_model(path_to_model):
     """Adapter function to load our pretrained model into memory.
 
     Parameters
@@ -80,12 +95,11 @@ def load_model(path_to_model:str):
 
     """
     return pickle.load(open(path_to_model, 'rb'))
-
-
+    
+model = load_model('teamND3_model.pkl')
 """ You may use this section (above the make_prediction function) of the python script to implement 
     any auxiliary functions required to process your model's artifacts.
 """
-
 def make_prediction(data, model):
     """Prepare request data for model prediction.
 
@@ -108,3 +122,5 @@ def make_prediction(data, model):
     prediction = model.predict(prep_data)
     # Format as list for output standardisation.
     return prediction[0].tolist()
+
+
