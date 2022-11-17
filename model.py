@@ -69,12 +69,12 @@ def _preprocess_data(data):
     df_train['hour'] = df_train['time'].dt.hour
     for col in df_train.columns:
         if True in list(df_train[col].isna()):
-            df_train = df_train.dropna(subset=col)
-    df_train.Valencia_wind_deg = df_train.Valencia_wind_deg.str[6:]
+            df_train = df_train.dropna(subset=[col])
+    df_train['Valencia_wind_deg'] = df_train['Valencia_wind_deg'].str[6:]
     df_train['Valencia_wind_deg'] = df_train['Valencia_wind_deg'].astype(int)
     df_train['Seville_pressure'] = df_train['Seville_pressure'].str[2:]
     df_train['Seville_pressure'] = df_train['Seville_pressure'].astype(int)
-    predict_vector = df_train.drop(['load_shortfall_3h','Unnamed: 0', 'time'], axis = 1)
+    predict_vector = df_train.drop(['Unnamed: 0', 'time'], axis = 1)
     # ------------------------------------------------------------------------
     return predict_vector
 
@@ -95,8 +95,7 @@ def load_model(path_to_model):
 
     """
     return pickle.load(open(path_to_model, 'rb'))
-    
-model = load_model('teamND3_model.pkl')
+
 """ You may use this section (above the make_prediction function) of the python script to implement 
     any auxiliary functions required to process your model's artifacts.
 """
