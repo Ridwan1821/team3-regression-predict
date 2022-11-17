@@ -116,7 +116,9 @@ def make_prediction(data, model):
     prep_data = _preprocess_data(data)
     # Perform prediction with model and preprocessed data.
     prediction = model.predict(prep_data)
+    prediction = list(prediction)
     # Format as list for output standardisation.
-    return prediction[0].tolist()
+    #return prediction[0].tolist()
+    return prediction[0]
 
 
