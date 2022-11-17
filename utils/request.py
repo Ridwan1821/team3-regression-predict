@@ -21,6 +21,12 @@
 import requests
 import pandas as pd
 import numpy as np
+import pickle
+import json
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error
+
 
 # Load data from file to send as an API POST request.
 # We prepare a DataFrame with the public test set + riders data

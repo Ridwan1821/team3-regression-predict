@@ -61,20 +61,19 @@ def _preprocess_data(data):
     # ---------------------------------------------------------------
 
     # ----------- Replace this code with your own preprocessing steps --------
-    df_train = feature_vector_df.copy()
-    df_train['time'] = pd.to_datetime(df_train['time'])
-    df_train['year'] = df_train['time'].dt.year
-    df_train['month'] = df_train['time'].dt.month
-    df_train['day'] = df_train['time'].dt.day
-    df_train['hour'] = df_train['time'].dt.hour
-    for col in df_train.columns:
-        if True in list(df_train[col].isna()):
-            df_train = df_train.dropna(subset=[col])
-    df_train['Valencia_wind_deg'] = df_train['Valencia_wind_deg'].str[6:]
-    df_train['Valencia_wind_deg'] = df_train['Valencia_wind_deg'].astype(int)
-    df_train['Seville_pressure'] = df_train['Seville_pressure'].str[2:]
-    df_train['Seville_pressure'] = df_train['Seville_pressure'].astype(int)
-    predict_vector = df_train.drop(['Unnamed: 0', 'time'], axis = 1)
+    feature_vector_df['time'] = pd.to_datetime(feature_vector_df['time'])
+    feature_vector_df['year'] = feature_vector_df['time'].dt.year
+    feature_vector_df['month'] = feature_vector_df['time'].dt.month
+    feature_vector_df['day'] = feature_vector_df['time'].dt.day
+    feature_vector_df['hour'] = feature_vector_df['time'].dt.hour
+    for col in feature_vector_df.columns:
+        if True in list(feature_vector_df[col].isna()):
+            feature_vector_df = feature_vector_df.dropna(subset=[col])
+    feature_vector_df['Valencia_wind_deg'] = feature_vector_df['Valencia_wind_deg'].str[6:]
+    feature_vector_df['Valencia_wind_deg'] = feature_vector_df['Valencia_wind_deg'].astype(int)
+    feature_vector_df['Seville_pressure'] = feature_vector_df['Seville_pressure'].str[2:]
+    feature_vector_df['Seville_pressure'] = feature_vector_df['Seville_pressure'].astype(int)
+    predict_vector = feature_vector_df.drop(['Unnamed: 0', 'time'], axis = 1)
     # ------------------------------------------------------------------------
     return predict_vector
 
