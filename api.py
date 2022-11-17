@@ -24,9 +24,6 @@ import numpy as np
 import pandas as pd
 from model import load_model, make_prediction
 from flask import Flask, request, jsonify
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error
 
 
 # Application definition
